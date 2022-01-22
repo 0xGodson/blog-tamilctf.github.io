@@ -2,15 +2,13 @@
 title: KnightCTF Digital-Forensics Writeup
 description: Cool Beginner Friendly Challenges from KnightCTF{2022}
 author: cyberpj
-date: 2022-01-21
-categories: CTFtime
-tags: [png,chuck,]
+date: 2022-01-22
+categories: [ctftime]
+tags: [png,chuck,ftp,log,forensics,binwalk
 ---
 ### Hello  Amazing CTF Players
 
 ### CTF Name : KnightCTF 2022
-
-[![https://imgur.com/qgyJgLJ.png](https://imgur.com/qgyJgLJl.png)](https://imgur.com/qgyJgLJl.png)
 
 ### Category : Digital-Forensics
 ---
