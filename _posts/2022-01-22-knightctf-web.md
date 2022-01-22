@@ -1,8 +1,8 @@
 ---
-title: please gimme a nice title
+title: KnightCTF Web Writeups
 author: gokulap
 date: 2022-01-22
-categories: [add me in some categories]
+categories: [web]
 tags: [web, ctf]
 ---
 
@@ -12,7 +12,7 @@ tags: [web, ctf]
 _Loading ....._
     
  ```python
- 
  import os 
  import pyautogui
  ```
+    
