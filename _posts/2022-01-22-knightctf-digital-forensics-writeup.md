@@ -10,7 +10,7 @@ tags: [png,chuck,ftp,log,forensics,binwalk]
 ### Hello  Amazing CTF Players
 
 **Lets have a look at some Begginer Friendly forensic challenges**
-
+[![https://imgur.com/qgyJgLJ.png](https://imgur.com/qgyJgLJl.png)](https://imgur.com/qgyJgLJl.png)
 ### CTF Name : KnightCTF 2022
 ### Category : Digital-Forensics
 ---
@@ -157,6 +157,7 @@ Archive:  11150.zip
  
  
  ---
+
 
 
 
