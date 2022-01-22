@@ -4,7 +4,7 @@ description: Cool Beginner Friendly Challenges from KnightCTF{2022}
 author: cyberpj
 date: 2022-01-22
 categories: [ctftime]
-tags: [png,chuck,ftp,log,forensics,binwalk
+tags: [png,chuck,ftp,log,forensics,binwalk]
 ---
 
 ### Hello  Amazing CTF Players
@@ -157,6 +157,7 @@ Archive:  11150.zip
  
  
  ---
+
 
 
 
