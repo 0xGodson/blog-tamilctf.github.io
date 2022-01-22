@@ -1,91 +1,160 @@
 ---
-title: Metactf 2021 - Crypto 
-description: Beginner Level Challenges from MetaCTF #5
+title: KnightCTF Digital-Forensics Writeup
+description: Cool Beginner Friendly Challenges from KnightCTF{2022}
 author: cyberpj
-date: 2021-12-19
-categories: ctftime
-tags: [cryptography]
-math: true
-mermaid: true
+date: 2022-01-22
+categories: [ctftime]
+tags: [png,chuck,ftp,log,forensics,binwalk]
+---
+## CTF Name : KnightCTF 2022
+####Hello  Amazing CTF Players
+**Lets have a look at some Begginer Friendly forensic challenges**
+
+[![https://imgur.com/qgyJgLJ.png](https://imgur.com/qgyJgLJl.png)](https://imgur.com/qgyJgLJl.png)
 ---
 
-## CTF Name : MetaCTF 2021 (Dec 5)
-![image](https://user-images.githubusercontent.com/72292872/148796808-c2147a50-ef52-46e1-9794-a04eebe3b8a0.png)
+## 1.Compromised FTP 
+![image](https://user-images.githubusercontent.com/72292872/150627891-f338a76a-5c43-4523-b230-e538a6bda6b5.png)
 
-### Category : Cryptography #5
-----
-> This Writeup involves Easy level challenges (Beginner Friendly)
->Pure Beginner Friendly Challenges
 
-## 1. Size Matters 
-![image](https://user-images.githubusercontent.com/72292872/146650731-7c408104-53eb-4727-93dd-d46bc6105255.png)
+**Given:**
 
- ```
- Ciphertext: 0x2526512a4abf23fca755defc497b9ab
-e: 257
-n: 0x592f144c0aeac50bdf57cf6a6a6e135
+```bash
+file ftp.log 
+ftp.log: ASCII text
 ```
- - RSA Decoder in dcode.fr
- - ![image](https://user-images.githubusercontent.com/72292872/146650963-81c9486f-54f8-47fa-9139-e79279174077.png)
+> They asked for the correct login username and ip address
 
-### Flag : MetaCTF{you_broke_rsa!}
------
-
-## 2. A to Z
-![image](https://user-images.githubusercontent.com/72292872/146651012-1825e84d-47c2-4b79-a629-9689a9b64e7b.png)
-- Just an Alphabetical substitution 
-![image](https://user-images.githubusercontent.com/72292872/146651051-e1a5c792-5156-4325-80db-38bb04e46b5d.png)
-## Flag : bashful_is_my_fav_dwarf
-
------
-## 3. Wrong Way on a One Way Street
-
-![image](https://user-images.githubusercontent.com/72292872/146651106-b35be025-a24e-4b7e-87f2-d98f25572662.png)
-`cb78e77e659c1648416cf5ac43fca4b65eeaefe1`
-
-- crackstation.net
-![image](https://user-images.githubusercontent.com/72292872/146651161-fee04a21-fc7b-4698-8c79-a937bd0329ab.png)
-## Flag : babyloka13
------
-## 4. Unbreable Encryption
-
-![image](https://user-images.githubusercontent.com/72292872/146651501-1db7070d-6412-4e86-b88b-47877ab78a6d.png)
-
- ```
- Ciphertext ( c1): 4fd098298db95b7f1bc205b0a6d8ac15f1f821d72fbfa979d1c2148a24feaafdee8d3108e8ce29c3ce1291
-
-Plaintext (p1): hey let's rob the bank at midnight tonight!
-
-Ciphertext (c2) : 41d9806ec1b55c78258703be87ac9e06edb7369133b1d67ac0960d8632cfb7f2e7974e0ff3c536c1871b
-key = 
 ```
+strings ftp.log|grep OK
+Mon Jan  3 15:24:13 2022 [pid 5399] [ftpuser] OK LOGIN: Client "::ffff:192.168.1.7"
 ```
-so 
-key = c1 xor p
-p2 = c2 xor key
-p2=MetaCTF{you're_better_than_steve!}
+
+<details><summary>Flag: </summary>
+<pre><code class="language-bash">KCTF{ftpuser_192.168.1.7}</code></pre>
+
+</details>
+
+---
+
+
+## 2. Lost Flag
+
+[![https://imgur.com/clXrXPC.png](https://imgur.com/clXrXPC.png)](https://imgur.com/clXrXPC.png)
+
+**Given:**
+
 ```
-Thats all 
-![image](https://user-images.githubusercontent.com/72292872/146651484-4bbf6a93-e4be-4b91-8b43-a74f7d530ec9.png)
+file Lost\ Flag.png 
+Lost Flag .png: PNG image data, 1200 x 600, 8-bit/color RGBA, non-interlaced
+```
+>You can use stegoveritas , aperisolve.fr or stegsolve
+
+**Here im using stegsolve**
+
+**File ->  Open -> image.png**
+
+[![https://imgur.com/hwUqdlp.png](https://imgur.com/hwUqdlpl.png)](https://imgur.com/hwUqdlpl.png)
+<details><summary>Flag: </summary>
+<pre><code class="language-bash">KCTF{Y0U_F0uNd_M3}</code></pre>
+</details>
+
 
 ----
 
-## 5. Tq For The pwd 
+## 3. Lets Walk Together
+![image](https://user-images.githubusercontent.com/72292872/150627915-5a9ad620-d149-4b84-88b6-9493d88a8f14.png)
 
-![image](https://user-images.githubusercontent.com/72292872/146651683-b1caab66-e230-4892-a14b-3e3441ed8f26.png)
+> From the challenge name you can conclude that its exactly about binwalk !
 
-Just a Base64 
+```
+└─$ binwalk -e interesting_waves.png                                                                   
 
-```echo TWV0YUNURntlbmNvZGluZ19pc19OMFRfdGhlX3NhbWVfYXNfZW5jcnlwdGlvbiEhfQ==|base64 -d ```
-                                                                                                              
-## Flag : MetaCTF{encoding_is_N0T_the_same_as_encryption!!}  
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             PNG image, 1024 x 768, 8-bit/color RGBA, non-interlaced
+69968         0x11150         Zip archive data, at least v1.0 to extract, name: Flag/
+70031         0x1118F         Zip archive data, encrypted at least v1.0 to extract, compressed size: 37, uncompressed size: 25, name: Flag/flag.txt
+70313         0x112A9         End of Zip archive, footer length: 22
+```
 
-------
-Thanks For reading - Team `TamilCTF`
+**get into the extracted file directory and do fcrackzip**
+                                                                                                                
+> cd _interesting_waves.png.extracted                                                                   
+  
+```bash
+┌──(kali㉿kali)
+└─$ ls                                                                                                      
+11150.zip  63  63.zlib  
+```  
 
-------
+**Zip file is passwod protected**
+
+```
+┌──(kali㉿kali)
+└─$ fcrackzip  -D -p  /usr/share/wordlists/rockyou.txt -u 11150.zip                                    
+
+PASSWORD FOUND!!!!: pw == letmein!
+                                                                                                                
+┌──(kali㉿kali)
+└─$ unzip 11150.zip                                                                                         1 ⚙
+Archive:  11150.zip
+[11150.zip] Flag/flag.txt password:  [letmein!]
+ extracting: Flag/flag.txt                                                                                                                       
+```
+
+**Thats all**
+
+<details>
+<summary>Flag: </summary>
+ <pre><code class="language-bash">KCTF{BiNw4lk_is_h3lpfUl}</code></pre>
+
+</details>
+
+
+## 4.Unknow File
+![image](https://user-images.githubusercontent.com/72292872/150627938-8280c1ba-e8fd-4e16-8641-abc6ab6fc36f.png)
+
+
+**Just Correct the first 4 magic bytes of the given file**
+
+`89 50 4E 47`
+
+```
+┌──(kali㉿kali)
+└─$ xxd unknown\ file|head                                                                             
+00000000: 0010 5665 0d0a 1a0a 0000 000d 4948 4452  ..Ve........IHDR
+00000010: 0000 04b0 0000 0258 0806 0000 0072 e61f  .......X.....r..
+00000020: 1a00 0000 0173 5247 4200 aece 1ce9 0000  .....sRGB.......
+00000030: 0009 7048 5973 0000 0ec4 0000 0ec4 0195  ..pHYs..........
+
+          (after)
+                                                                                                                
+┌──(kali㉿kali)
+└─$ xxd unknown\ file|head
+00000000: 8950 4e47 0d0a 1a0a 0000 000d 4948 4452  .PNG........IHDR
+00000010: 0000 04b0 0000 0258 0806 0000 0072 e61f  .......X.....r..
+00000020: 1a00 0000 0173 5247 4200 aece 1ce9 0000  .....sRGB.......
+00000030: 0009 7048 5973 0000 0ec4 0000 0ec4 0195  ..pHYs..........
+```
+![image](https://user-images.githubusercontent.com/72292872/150628131-3e1a9906-cbc1-4ae9-99bf-c346e87918d1.png)
+
+<details><summary>Flag: </summary>
+<pre><code class="language-bash">KCTF{Imag3_H3ad3r_M4nipul4t10n}</code></pre>
+
+</details>
+
+
+ Reference about magic bytes manipulation :
  
-
+ [INCTF-Junior-Finals](https://0xcyberpj.me/my-blog/ctf/INCTF_Junior-Finals/#10-chunking-up)
+ 
+ [INCTF_Nationals-LR](https://0xcyberpj.me/my-blog/ctf/INCTF-21-Forensics/#9chunkies)
+ 
+ [INCTF-Pro-Finals](https://0xcyberpj.me/my-blog/ctf/INCTF_Pro-Finals/#3-chunklet-100pts)
+ 
+ 
+ ---
 
 
 
