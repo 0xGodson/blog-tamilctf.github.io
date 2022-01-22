@@ -10,3 +10,9 @@ tags: [web, ctf]
 
 
 _Loading ....._
+    
+ ```python
+ 
+ import os 
+ import pyautogui
+ ```
