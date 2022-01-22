@@ -1,163 +1,175 @@
 ---
-title: KnightCTF Digital-Forensics Writeup
-description: Cool Beginner Friendly Challenges from KnightCTF{2022}
+title: Inctf21 Pro Finals Forensics Writeup
+description: Beginner Level Interesting Challenges From INCTF21 PRO Finals
 author: cyberpj
-date: 2022-01-22
-categories: [ctftime]
-tags: [png,chuck,ftp,log,forensics,binwalk]
----
-
-### Hello  Amazing CTF Players 
-
-### CTF Name : KnightCTF-2022
-### Category : Digital-Forensics
-[![https://imgur.com/qgyJgLJ.png](https://imgur.com/qgyJgLJl.png)](https://imgur.com/qgyJgLJl.png)
-
-----
-
-## 1.Compromised FTP 
-![image](https://user-images.githubusercontent.com/72292872/150627891-f338a76a-5c43-4523-b230-e538a6bda6b5.png)
-
-
-**Given:**
-
-```bash
-file ftp.log 
-ftp.log: ASCII text
-```
-> They asked for the correct login username and ip address
-
-```
-strings ftp.log|grep OK
-Mon Jan  3 15:24:13 2022 [pid 5399] [ftpuser] OK LOGIN: Client "::ffff:192.168.1.7"
-```
-
-<details><summary>Flag: </summary>
-<pre><code class="language-bash">KCTF{ftpuser_192.168.1.7}</code></pre>
-
-</details>
-
+date: 2021-12-18
+categories: CTF Events
+tags: [forensics,peepdf,wireshark,steganography,deepsound,PNG,MagicBytes,cipher]
 ---
 
 
-## 2. Lost Flag
+## Hello Amazing Hackers!
+> In this Blog We are going to have  a look at  some cool forensic challenges from inctf21 professional by bi0s
+>  Beginner Level Interesting Challenges From INCTF21 PRO Finals
 
-[![https://imgur.com/clXrXPC.png](https://imgur.com/clXrXPC.png)](https://imgur.com/clXrXPC.png)
+------
 
-**Given:**
+## 1. XOXO (100pts)
 
+![image](https://user-images.githubusercontent.com/72292872/148693842-704f849b-e24b-48be-ac03-42b92a0bb227.png)
+
+Description: 
+```Did you know: if a^b=c then a^c=b```
+
+ **Given : xorred png file**
+ 
+ ``` 
+ pj@kali~ file encrypted.png
+
+encrypted.png: data 
 ```
-file Lost\ Flag.png 
-Lost Flag .png: PNG image data, 1200 x 600, 8-bit/color RGBA, non-interlaced
+1. **We actually Dont know the key , but we know the actual extension(png) which is come after the xor process.
+then xor the file with magic bytes of png , it will gives the Key to retrive the PNG**
+**Magic Bytes of PNG**
 ```
->You can use stegoveritas , aperisolve.fr or stegsolve
+xxd -l 10 chall.png                                                                  
+00000000: 8950 4e47 0d0a 1a0a 0000                 .PNG......
+```
+![image](https://user-images.githubusercontent.com/72292872/148690219-508bbf5a-229b-4e6f-a013-983876ff7667.png)
 
-**Here im using stegsolve**
+2.**Xor the encrypted.png with the key** `eAsy-x0r`
+```
+>>> from pwn import  *
+>>> encrypted=open("encrypted.png","rb").read()
+>>> answer=open("flag.png","wb")
+>>> answer.write(xor("eAsy-x0r",encrypted))
+396068
+>>> answer.close()
+```
+![image](https://user-images.githubusercontent.com/72292872/148690415-6962076d-53f9-47cf-b318-dc71dccf3da2.png)
 
-**File ->  Open -> image.png**
-
-[![https://imgur.com/hwUqdlp.png](https://imgur.com/hwUqdlpl.png)](https://imgur.com/hwUqdlpl.png)
-<details><summary>Flag: </summary>
-<pre><code class="language-bash">KCTF{Y0U_F0uNd_M3}</code></pre>
-</details>
-
+**Here We go ,FLAG :**`inctf{x0riNg_iS_fUn!!}` 
 
 ----
 
-## 3. Lets Walk Together
-![image](https://user-images.githubusercontent.com/72292872/150627915-5a9ad620-d149-4b84-88b6-9493d88a8f14.png)
+## 2. Look Deeper (200pts)
 
-> From the challenge name you can conclude that its exactly about binwalk !
+![image](https://user-images.githubusercontent.com/72292872/148693814-889495f2-0716-4764-b182-2bbe68afd6c1.png)
+
+
+**Description** : 
+``` Ramesh sent me this PDF and told me that there is a weird sound deep in it, and asked me to find it. Can you help him find the what is hidden deep?```
+
+*Given* : 
+```
+chall.pdf: PDF document, version 1.1
+```
+1. Evince the pdf
+![image](https://user-images.githubusercontent.com/72292872/148691104-aea24cec-cfee-4dfe-bc6b-c4ce0c10bc5b.png)
+```
+echo "ZTN5bl83a2RfdjBfc240el9nYzdfaHUzeXp0=="|base64 -d                                       
+e3yn_7kd_v0_sn4z_gc7_hu3yz
+```
+>I thought vigenere,
+> yes `vigenere cipher` 
+
+![image](https://user-images.githubusercontent.com/72292872/148691273-e2708241-4a4d-469c-8341-7e1b473b9828.png)
+
+well, it's not a flag but let's take it `w3ll_7ry_n0_fl4g_bu7_us3ful`
+
+2. Lets enum the pdf and extract any file
+
+``` 
+python2 /opt/git.peepdf/peepdf.py -i chall.pdf
+
+PPDF> info
+
+Version 0:
+        Catalog: 1
+        Info: No
+        Objects (8): [1, 2, 3, 4, 5, 6, 7, 8]
+        Streams (2): [5, 8]
+                Encoded (1): [8]
+        Suspicious elements:
+                /Names (1): [1]
+PPDF> stream 8 > output
+```
+**wave time !**
+```
+file output 
+output: RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, stereo 44100 Hz
+```
+**From Description `deep?` exactly deepsound!**
+
+3. open the wave in deepsound and input the decrypted cipher as a password
+
+>- open carrier file
+>- input password
+>- save the flag.zip
+![image](https://i.imgur.com/bvm9tNl.png)
+- unzip flag.zip
+**correct the header of flag.png**
+**remove the line `......JFIF......` from flag.png using ghex**
 
 ```
-└─$ binwalk -e interesting_waves.png                                                                   
+>>pj@kali~: xxd flag.png|head                                                                              1 ⨯
+00000000: ffd8 ffe0 0010 4a46 4946 0001 0100 0001  ......JFIF......
+00000010: 8950 4e47 0d0a 1a0a 0000 000d 4948 4452  .PNG........IHDR
+        (after)
 
-DECIMAL       HEXADECIMAL     DESCRIPTION
---------------------------------------------------------------------------------
-0             0x0             PNG image, 1024 x 768, 8-bit/color RGBA, non-interlaced
-69968         0x11150         Zip archive data, at least v1.0 to extract, name: Flag/
-70031         0x1118F         Zip archive data, encrypted at least v1.0 to extract, compressed size: 37, uncompressed size: 25, name: Flag/flag.txt
-70313         0x112A9         End of Zip archive, footer length: 22
-```
-
-**get into the extracted file directory and do fcrackzip**
-                                                                                                                
-> cd _interesting_waves.png.extracted                                                                   
-  
-```bash
-┌──(kali㉿kali)
-└─$ ls                                                                                                      
-11150.zip  63  63.zlib  
-```  
-
-**Zip file is passwod protected**
-
-```
-┌──(kali㉿kali)
-└─$ fcrackzip  -D -p  /usr/share/wordlists/rockyou.txt -u 11150.zip                                    
-
-PASSWORD FOUND!!!!: pw == letmein!
-                                                                                                                
-┌──(kali㉿kali)
-└─$ unzip 11150.zip                                                                                         1 ⚙
-Archive:  11150.zip
-[11150.zip] Flag/flag.txt password:  [letmein!]
- extracting: Flag/flag.txt                                                                                                                       
-```
-
-**Thats all**
-
-<details>
-<summary>Flag: </summary>
- <pre><code class="language-bash">KCTF{BiNw4lk_is_h3lpfUl}</code></pre>
-
-</details>
-
-
-## 4.Unknow File
-![image](https://user-images.githubusercontent.com/72292872/150627938-8280c1ba-e8fd-4e16-8641-abc6ab6fc36f.png)
-
-
-**Just Correct the first 4 magic bytes of the given file**
-
-`89 50 4E 47`
-
-```
-┌──(kali㉿kali)
-└─$ xxd unknown\ file|head                                                                             
-00000000: 0010 5665 0d0a 1a0a 0000 000d 4948 4452  ..Ve........IHDR
-00000010: 0000 04b0 0000 0258 0806 0000 0072 e61f  .......X.....r..
-00000020: 1a00 0000 0173 5247 4200 aece 1ce9 0000  .....sRGB.......
-00000030: 0009 7048 5973 0000 0ec4 0000 0ec4 0195  ..pHYs..........
-
-          (after)
-                                                                                                                
-┌──(kali㉿kali)
-└─$ xxd unknown\ file|head
+ >>pj@kali~: xxd flag.png|head
 00000000: 8950 4e47 0d0a 1a0a 0000 000d 4948 4452  .PNG........IHDR
-00000010: 0000 04b0 0000 0258 0806 0000 0072 e61f  .......X.....r..
-00000020: 1a00 0000 0173 5247 4200 aece 1ce9 0000  .....sRGB.......
-00000030: 0009 7048 5973 0000 0ec4 0000 0ec4 0195  ..pHYs..........
+00000010: 0000 03c0 0000 02bd 0806 0000 00eb 1d05  ................
+00000020: 3000 0036 837a 5458 7452 6177 2070 726f  0..6.zTXtRaw pro
 ```
-![image](https://user-images.githubusercontent.com/72292872/150628131-3e1a9906-cbc1-4ae9-99bf-c346e87918d1.png)
 
-<details><summary>Flag: </summary>
-<pre><code class="language-bash">KCTF{Imag3_H3ad3r_M4nipul4t10n}</code></pre>
+![image](https://user-images.githubusercontent.com/72292872/148692558-235ce7a2-86db-439d-8d9f-2f452d2ffdda.png)
 
-</details>
+### Flag : inctf{Kn0w1ng_4b0ut_PDF's_15_u53fuL}
 
+-----
 
- Reference about magic bytes manipulation :
- 
- [INCTF-Junior-Finals](https://0xcyberpj.me/my-blog/ctf/INCTF_Junior-Finals/#10-chunking-up)
- 
- [INCTF_Nationals-LR](https://0xcyberpj.me/my-blog/ctf/INCTF-21-Forensics/#9chunkies)
- 
- [INCTF-Pro-Finals](https://0xcyberpj.me/my-blog/ctf/INCTF_Pro-Finals/#3-chunklet-100pts)
- 
- 
- ---
+## 3. Chunklet (100pts)
 
 
 
+[reference-inctf-nationals Learning Round](https://0xcyberpj.me/my-blog/ctf/INCTF-21-Forensics/#9chunkies)
 
+**given:**
+```
+ >>pj@kali~: file chall.png                                                                               130 ⨯
+chall.png: data
+```
+1. Correct the png header 
+
+```
+>>pj@kali~: xxd -l 10 chall.png 
+00000000: 8950 6e47 0d0a 1a0a 0000                 .PnG......
+                  (after)                                                                                              
+ >>pj@kali~: xxd -l 10 chall.png
+00000000: 8950 4e47 0d0a 1a0a 0000                 .PNG......
+```
+2. Replace `idhr` to `IHDR`
+
+3. Replace `IADT` to `IDAT`
+
+![image](https://user-images.githubusercontent.com/72292872/148693353-0c71e455-ec30-4e98-bc1f-9fd45d2dddfb.png)
+
+4. Replace The trailer from  `INED` to `IEND`
+
+```
+>>pj@kali~: xxd chall.png |tail                
+00006de0: 0000 494e 4544 ae42 6082                 ..INED.B`.
+                             
+                             (AFTER)                           
+ >>pj@kali~: xxd chall.png |tail
+00006de0: 0000 4945 4e44 ae42 6082                 ..IEND.B`.
+```
+5. `feh chall.png`
+
+![image](https://user-images.githubusercontent.com/72292872/148693591-7a6e6500-94a9-454b-adbb-aa41a12cbfe5.png)
+
+**Here we Go**
+### Flag : inctf{tH15_w4S_Pr3Ty_EA5y}
+
+-----
