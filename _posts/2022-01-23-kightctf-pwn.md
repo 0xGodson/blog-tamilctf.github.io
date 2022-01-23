@@ -1,7 +1,7 @@
 ---
 title: KnightCTF pwn challenges writeup
 author: jopraveen
-date: 2022-01-22
+date: 2022-01-23
 categories: [CTFtime,KinghtCTF]
 tags: [pwn,rev]
 ---
