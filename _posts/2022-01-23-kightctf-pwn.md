@@ -44,7 +44,7 @@ tags: [pwn,rev]
 - In line 22 there are  two condition checks
 - One with **0x5445454c** , anther one with **0x534b544e**
 - So we need to overwrite those values
-- First let's find in which offset they are locate
+- First let's find in which offset they are located
 - Let's open it with gdb and disassemble the main function
 
 ![](https://i.imgur.com/FN99TjA.png)
@@ -139,6 +139,7 @@ else:
 ![](https://i.imgur.com/VvuvDAY.png)
 - flag `KCTF{b1NaRy_3xOpL0iTaT1On_r0cK5}`
 - That's all for this category, easy pwns 😛
+    
     
     
     
