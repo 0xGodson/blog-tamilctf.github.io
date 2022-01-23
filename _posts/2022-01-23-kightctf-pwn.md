@@ -96,7 +96,7 @@ p.interactive()
 
 -------
 
-## Hackers Vault
+## Hackers Vault [100 points]
 - They gave us a zip file to download, so lets unzip it and add the binary file to GHIDRA
 - I was concentrating on other challenge so I automated this challenge with angr
 
@@ -139,5 +139,6 @@ else:
 ![](https://i.imgur.com/VvuvDAY.png)
 - flag `KCTF{b1NaRy_3xOpL0iTaT1On_r0cK5}`
 - That's all for this category, easy pwns 😛
+    
     
     
