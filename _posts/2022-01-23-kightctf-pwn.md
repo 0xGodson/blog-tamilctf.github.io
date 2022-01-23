@@ -17,8 +17,8 @@ tags: [pwn,rev]
 - So we can get the flag
 - Ok how we can do that?
   - char **user_input** array can store upto 60 bytes
-  - and then there will be the value of the integer 100
-  - so if we give more than 60 bytes it'll overwrite it
+  - in memory after the user_input there will be the value of the integer (100)
+  - so if we give more than 60 bytes it'll overwrite that integer
   - let's try that
 
 ![](https://i.imgur.com/Ymq1znG.png)
@@ -139,6 +139,7 @@ else:
 ![](https://i.imgur.com/VvuvDAY.png)
 - flag `KCTF{b1NaRy_3xOpL0iTaT1On_r0cK5}`
 - That's all for this category, easy pwns 😛
+    
     
     
     
