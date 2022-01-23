@@ -1,5 +1,5 @@
 ---
-title: please gimme a nice title
+title: KnightCTF pwn challenges writeup
 author: jopraveen
 date: 2022-01-22
 categories: [CTFtime,KinghtCTF]
@@ -139,4 +139,5 @@ else:
 ![](https://i.imgur.com/VvuvDAY.png)
 - flag `KCTF{b1NaRy_3xOpL0iTaT1On_r0cK5}`
 - That's all for this category, easy pwns 😛
+    
     
